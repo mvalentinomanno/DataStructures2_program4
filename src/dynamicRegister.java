@@ -19,30 +19,13 @@ public class dynamicRegister {
             throw new IllegalArgumentException("input array cant be empty");
         }
 
-        boolean penny = false;
-        for (int i = 0; i < change.length; i++) { //loop to check if there's a penny
-            if (change[i] == 1) {
-                penny = true;
-            }
-        }
-
-        if (penny == false) { //catch if theres no penny
-            throw new IllegalArgumentException("a penny is necessary to guarantee correct change");
-        }
-
-        for (int i = 0; i < change.length; i++) { //loops to check for negative denominations
-            if (change[i] < 0) { //catch negative denominations
-                throw new IllegalArgumentException("no negative denominations");
-            }
-        }
-
         // numCoins[0] = 0;
         lastCoin[0] = 0; //0 cents makes 0 cents
 
         /*
-        for (int i = 1; i < cents + 1; i++) {
-            numCoins[i] = 1000000;
-        }
+        for (int i = 1; i < cents + 1; i++) {   //I commented out code that was unnecessary
+            numCoins[i] = 1000000;             //it built an array that held the least number of 
+        }                                       //coins, but the method didnt need it
         for (int k = 1; k < cents + 1; k++) {
             for (int h = 0; h < change.length; h++) {
                 if (k >= change[h]) {

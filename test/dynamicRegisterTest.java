@@ -12,7 +12,7 @@ import org.junit.Test;
 public class dynamicRegisterTest {
 
     @Test
-    public void test1() { //test1 gives a situation where the greedy algorithm would fail, but dynamic succeeds
+    public void test1() { //test1 gives a situation where the greedy algorithm would be suboptimal, but dynamic succeeds
         int coins[] = {1, 5, 12, 25};//coins in use
         int expectedAns[] = {1, 5, 5, 5}; //expected change
         int total = 16; //total change due back
@@ -32,7 +32,7 @@ public class dynamicRegisterTest {
     }
 
     @Test
-    public void test2() { //another situation where the dynamic algo succeeds, but greedy would fail
+    public void test2() { //another situation where the dynamic algo succeeds, but greedy would be suboptimal
         int coins[] = {1, 5, 21, 25};//coins in use
         int expectedAns[] = {21, 21, 21}; //expected ans
         int total = 63; //total due back
@@ -71,20 +71,6 @@ public class dynamicRegisterTest {
             Assert.assertEquals(expectedAns[i], coinsReturned[i]); //compare output to expected array
         }
 
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testNegDenom() { //dynamincRegister throws illegal argument if theres a negative denomination
-        int coins[] = {-1, 5, 10, 25}; //cant have a negative denomination, so this test will catch this case
-        int total = 68;
-        dynamicRegister.cashReg(coins, total);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testPenny() { //dynamincRegister throws illegal argument if theres not 1 denimonation
-        int coins[] = {5, 10, 25}; //to guarantee change can be made, a penny must be used
-        int total = 68;  //if a penny isn't listed as a denomination, we cant guarentee any value of change can be made.
-        dynamicRegister.cashReg(coins, total); //test will catch if theres no penny
     }
 
     @Test(expected = IllegalArgumentException.class)
