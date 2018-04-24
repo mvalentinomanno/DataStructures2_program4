@@ -1,31 +1,48 @@
+/*
+ * Author: Michael Valentino-Manno, Benjamin Seal
+ * Date: 4/24/18 
+ * Overview: Using a dynamic algorithm, this program counts correct change
+ * No main method, this program is run/tested by jtests
+ */
 
 import java.util.LinkedList;
 
-/*
- * Author: <Insert your name> 
- * Date: <Date you submitted the assignment> 
- * Overview: <Program overview. What is this software? Do you have 
- * any special instructions to run this software?> 
- */
 public class dynamicRegister {
 
     public static LinkedList cashReg(int[] change, int cents) {
 
-        int[] numCoins = new int[cents + 1];
-        int[] lastCoin = new int[numCoins.length];
-        LinkedList ll = new LinkedList();
+        // int[] numCoins = new int[cents + 1];
+        int[] lastCoin = new int[cents + 1]; //array holds last coin used
+        LinkedList ll = new LinkedList(); //list of change that'll be returned
 
         if (change.length == 0) { //catch array input of size 1
             throw new IllegalArgumentException("input array cant be empty");
         }
 
-        numCoins[0] = 0;
-        lastCoin[0] = 0;
-// <= cents
+        boolean penny = false;
+        for (int i = 0; i < change.length; i++) { //loop to check if there's a penny
+            if (change[i] == 1) {
+                penny = true;
+            }
+        }
+
+        if (penny == false) { //catch if theres no penny
+            throw new IllegalArgumentException("a penny is necessary to guarantee correct change");
+        }
+
+        for (int i = 0; i < change.length; i++) { //loops to check for negative denominations
+            if (change[i] < 0) { //catch negative denominations
+                throw new IllegalArgumentException("no negative denominations");
+            }
+        }
+
+        // numCoins[0] = 0;
+        lastCoin[0] = 0; //0 cents makes 0 cents
+
+        /*
         for (int i = 1; i < cents + 1; i++) {
             numCoins[i] = 1000000;
         }
-  //<= cents
         for (int k = 1; k < cents + 1; k++) {
             for (int h = 0; h < change.length; h++) {
                 if (k >= change[h]) {
@@ -35,27 +52,27 @@ public class dynamicRegister {
                     }
                 }
             }
-        }
-
+        }*/
+        
         int big = 0;
-        for (int i = 1; i < lastCoin.length; i++) {
-            for (int j = 0; j < change.length; j++) {
-                if (i % change[j] == 0) {
-                    if (change[j] > big) {
+        for (int i = 1; i < lastCoin.length; i++) { //loop through last coin array
+            for (int j = 0; j < change.length; j++) { //for each denomination
+                if (i % change[j] == 0) { //if a value is divisible by a denomination
+                    if (change[j] > big) { //check if its the largest denomination that divided the change value 
                         big = change[j];
                     }
                 }
             }
-            lastCoin[i] = big;
-            big = 0;
+            lastCoin[i] = big; //the largest coin that produces a remainder of 0 is the last coin used
+            big = 0; //reset 
         }
 
-        while (cents != 0) {
-            ll.add(new String(Integer.toString(lastCoin[cents])));
-            cents = cents - lastCoin[cents];
+        while (cents != 0) { //loop until the change has been completely determined
+            ll.add(new String(Integer.toString(lastCoin[cents]))); //add the value to linked list
+            cents = cents - lastCoin[cents]; //update the change yet to be returned
         }
 
-        return ll;
+        return ll; //return the list
     }
 
 }
